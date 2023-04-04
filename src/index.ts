@@ -3,6 +3,7 @@ import { __dbpassword__, __dbuser__, __prod__ } from "./constants";
 
 const main = async () => {
     const orm = await MikroORM.init({
+        entities: [],
         dbName: 'portfolio',
         user: __dbuser__,
         password: __dbpassword__,
