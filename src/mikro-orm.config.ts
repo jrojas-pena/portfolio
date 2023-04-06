@@ -6,7 +6,8 @@ import path from 'path';
 export default {
   migrations: {
     path: path.join(__dirname, './migrations'),
-    // pattern: /^[\w-]+\d+\.[tj]s$/,
+    pattern: /^[\w-]+\d+\.[tj]s$/,
+    disableForeignKeys: false,
   },
   entities: [Post],
   dbName: 'portfolio',

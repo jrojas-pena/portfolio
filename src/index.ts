@@ -5,6 +5,8 @@ import mikroConfig from './mikro-orm.config';
 
 const main = async () => {
   const orm = await MikroORM.init(mikroConfig);
+  const entityManager = orm.em.fork();
+  await orm.getMigrator().up();
 
   const postData = {
     title: 'My Post Title',
@@ -14,7 +16,7 @@ const main = async () => {
   const post = new Post(postData.title, postData.body);
   post.createdAt = new Date();
   post.updatedAt = new Date();
-  await orm.em.persistAndFlush(post);
+  await entityManager.persistAndFlush(post);
 };
 
 main();
