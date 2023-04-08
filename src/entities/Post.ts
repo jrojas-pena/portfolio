@@ -13,7 +13,7 @@ export class Post {
   title!: string;
 
   @Field(() => String)
-  @Property()
+  @Property({ nullable: true })
   body?: string;
 
   @Field(() => String)
