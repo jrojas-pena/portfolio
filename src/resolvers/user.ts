@@ -8,6 +8,7 @@ import {
   InputType,
   Field,
   Query,
+  ObjectType,
 } from 'type-graphql';
 import argon2 from 'argon2';
 
@@ -19,6 +20,23 @@ class UsernamePasswordInput {
   password: string;
 }
 
+@ObjectType()
+class FieldError {
+  @Field()
+  field: string;
+  @Field()
+  message: string;
+}
+
+@ObjectType()
+class UserResponse {
+  @Field(() => User, { nullable: true })
+  user?: User;
+
+  @Field(() => [FieldError], { nullable: true })
+  error?: FieldError[];
+}
+
 @Resolver()
 export class UserResolver {
   // Create a user
@@ -26,33 +44,69 @@ export class UserResolver {
   async createUser(
     @Arg('options', () => UsernamePasswordInput) options: UsernamePasswordInput,
     @Ctx() { em }: MyContext,
-  ): Promise<User | null> {
+  ): Promise<UserResponse> {
+    if (options.username.length <= 2) {
+      return {
+        error: [
+          {
+            field: 'username',
+            message: 'Username must be at least 3 characters long',
+          },
+        ],
+      };
+    }
+
+    if (options.password.length <= 3) {
+      return {
+        error: [
+          {
+            field: 'password',
+            message: 'Password must be at least 3 characters long',
+          },
+        ],
+      };
+    }
+
     const hashedPassword = await argon2.hash(options.password);
     const user = em.create(User, {
       username: options.username,
       password: hashedPassword,
     });
     await em.persistAndFlush(user);
-    return user;
+    return { user };
   }
 
   // Login a user
-  @Query(() => User, { nullable: true })
+  @Mutation(() => UserResponse, { nullable: true })
   async login(
     @Arg('options', () => UsernamePasswordInput) options: UsernamePasswordInput,
     @Ctx() { em }: MyContext,
-  ): Promise<User | null> {
-    const hashedPassword = await argon2.hash(options.password);
+  ): Promise<UserResponse> {
     // get user from database
     const user = await em.findOne(User, { username: options.username });
     if (!user) {
-      return null;
+      return {
+        error: [
+          {
+            field: 'username',
+            message: 'That username does not exist',
+          },
+        ],
+      };
     }
+
     // compare password
-    const valid = await argon2.verify(hashedPassword, options.password);
+    const valid = await argon2.verify(user.password, options.password);
     if (!valid) {
-      return null;
+      return {
+        error: [
+          {
+            field: 'password',
+            message: 'Incorrect password',
+          },
+        ],
+      };
     }
-    return user;
+    return { user };
   }
 }
