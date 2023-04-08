@@ -21,4 +21,8 @@ export class Post {
     this.title = title;
     this.body = body;
   }
+
+  static async find(): Promise<Post[]> {
+    return [];
+  }
 }
