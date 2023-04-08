@@ -1,5 +1,5 @@
-import { EntityManager, PostgreSqlDriver } from '@mikro-orm/postgresql';
+import { EntityManager, IDatabaseDriver, Connection } from '@mikro-orm/core';
 
 export type MyContext = {
-  em: EntityManager<any> & EntityManager<PostgreSqlDriver>;
+  em: EntityManager<any> & EntityManager<IDatabaseDriver<Connection>>;
 };

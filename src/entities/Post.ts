@@ -14,7 +14,7 @@ export class Post {
 
   @Field(() => String)
   @Property()
-  body!: string;
+  body?: string;
 
   @Field(() => String)
   @Property({ type: 'date' })
