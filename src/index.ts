@@ -1,3 +1,4 @@
+import 'reflect-metadata';
 import { MikroORM } from '@mikro-orm/core';
 import { __dbpassword__, __dbuser__, __prod__ } from './constants';
 import { Post } from './entities/Post';
@@ -18,8 +19,10 @@ const main = async () => {
       resolvers: [PostResolver],
       validate: false,
     }),
+    context: () => ({ em: entityManager }),
   });
 
+  await apolloServer.start();
   apolloServer.applyMiddleware({ app });
 
   app.listen(4000, () => {
