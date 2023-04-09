@@ -4,8 +4,12 @@ import { Field, ObjectType } from 'type-graphql';
 @ObjectType()
 @Entity()
 export class User {
-  @Field(() => String)
+  @Field()
   @PrimaryKey()
+  @Property({ type: 'number', unique: true })
+  id!: number;
+
+  @Field(() => String)
   @Property({ type: 'text', unique: true })
   username!: string;
 
