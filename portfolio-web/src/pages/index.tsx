@@ -14,6 +14,17 @@ import { Main } from '../components/Main'
 import { DarkModeSwitch } from '../components/DarkModeSwitch'
 import { CTA } from '../components/CTA'
 import { Footer } from '../components/Footer'
+import * as React from "react";
+import ReactDOM from "react-dom";
+import { ChakraProvider } from "@chakra-ui/react";
+import MyApp from "./_app";
+
+ReactDOM.render(
+  <ChakraProvider>
+    <MyApp />
+  </ChakraProvider>,
+  document.getElementById("root")
+);
 
 const Index = () => (
   <Container height="100vh">
