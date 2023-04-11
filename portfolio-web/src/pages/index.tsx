@@ -18,6 +18,7 @@ import * as React from "react";
 import ReactDOM from "react-dom";
 import { ChakraProvider } from "@chakra-ui/react";
 import MyApp from "./_app";
+import NavBar from "../components/NavBar";
 
 
 // ReactDOM.render(
@@ -28,6 +29,7 @@ import MyApp from "./_app";
 
 const Index = () => (
   <Container height="100vh">
+    <NavBar title="Cafe Programming" logo={<></>} />
     <Hero />
     <Main>
       <Text color="text">
