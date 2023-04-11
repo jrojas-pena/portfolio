@@ -6,7 +6,7 @@ export const Main = (props: StackProps) => (
     width="100%"
     maxWidth="48rem"
     mt="-45vh"
-    pt="8rem"
+    pt="50vh"
     px="1rem"
     {...props}
   />

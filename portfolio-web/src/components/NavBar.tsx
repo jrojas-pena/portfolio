@@ -1,76 +1,105 @@
+import { ReactNode } from 'react';
 import {
-    Box,
-    Flex,
-    Spacer,
-    Link,
-    HStack
-} from "@chakra-ui/react";
-import React from "react";
+  Box,
+  Flex,
+  Avatar,
+  HStack,
+  Link,
+  IconButton,
+  Button,
+  Menu,
+  MenuButton,
+  MenuList,
+  MenuItem,
+  MenuDivider,
+  useDisclosure,
+  useColorModeValue,
+  Stack,
+} from '@chakra-ui/react';
+import { HamburgerIcon, CloseIcon } from '@chakra-ui/icons';
 
-interface NavBarProps {
-    title: string;
-    logo: React.ReactNode;
-}
+const Links = [ 'Projects', 'About', 'Contact'];
 
-const NavBar: React.FC<NavBarProps> = ({ title, logo }) => (
-        <Flex
-            as="nav"
-            align="center"
-            justify="space-between"
-            wrap="wrap"
-            padding="1.5rem"
-            bg="blue.500"
-            color="white"
-            position={{ base: "fixed", md: "relative" }}
-            width="full"
-        >
-            <Flex align="center" mr={5}
-                as="a"
-                href="/"
-                title="Cafe Programming"
-                aria-label="Cafe Programming"
-            >
-                {logo}
-                <Box ml="2" fontWeight="semibold" as="h1">
-                    {title}
-                </Box>
-            </Flex>
+const NavLink = ({ children, link }: { children: ReactNode, link: string }) => (
+  <Link
+    px={2}
+    py={2}
+    rounded={'md'}
+    _hover={{
+      textDecoration: 'none',
+      bg: useColorModeValue('gray.300', 'gray.700'),
+    }}
+    href={link}>
+    {children}
+  </Link>
+);
 
-            <Spacer />
+export default function Simple() {
+  const { isOpen, onOpen, onClose } = useDisclosure();
 
-            <HStack spacing={8} align="center">
-                <Link
-                    as="a"
-                    href="/"
-                    fontSize="lg"
-                    fontWeight="medium"
-                    color="white"
-                    _hover={{ color: "gray.400" }}
-                >
-                    Home
-                </Link>
-                <Link
-                    as="a"
-                    href="/about"
-                    fontSize="lg"
-                    fontWeight="medium"
-                    color="white"
-                    _hover={{ color: "gray.400" }}
-                >
-                    About
-                </Link>
-                <Link
-                    as="a"
-                    href="/contact"
-                    fontSize="lg"
-                    fontWeight="medium"
-                    color="white"
-                    _hover={{ color: "gray.400" }}
-                >
-                    Contact
-                </Link>
+  return (
+    <>
+      <Box bg={useColorModeValue('gray.200', 'black')} px={4} width="full" boxShadow='base' fontFamily="roboto" fontWeight="semibold">
+        <Flex h={20} alignItems={'center'} justifyContent={'space-between'}>
+          <IconButton
+            size={'md'}
+            icon={isOpen ? <CloseIcon /> : <HamburgerIcon />}
+            aria-label={'Open Menu'}
+            display={{ md: 'none' }}
+            onClick={isOpen ? onClose : onOpen}
+          />
+          <HStack spacing={8} alignItems={'center'} >
+            <HStack
+              as={'nav'}
+              spacing={4}
+              display={{ base: 'none', md: 'flex' }}>
+              {Links.map((link) => (
+                <NavLink key={link} link={link}>{link}</NavLink>
+              ))}
             </HStack>
+          </HStack>
+          <HStack spacing={8} alignItems={'center'}>
+            <Box>Logo</Box>
+          </HStack>
+          <Flex alignItems={'center'}>
+            {/* <Menu>
+              <MenuButton
+                as={Button}
+                rounded={'full'}
+                variant={'link'}
+                cursor={'pointer'}
+                minW={0}>
+                <Avatar
+                  size={'sm'}
+                  src={
+                    'https://images.unsplash.com/photo-1493666438817-866a91353ca9?ixlib=rb-0.3.5&q=80&fm=jpg&crop=faces&fit=crop&h=200&w=200&s=b616b2c5b373a80ffc9636ba24f7a4a9'
+                  }
+                />
+              </MenuButton>
+              <MenuList>
+                <MenuItem>Link 1</MenuItem>
+                <MenuItem>Link 2</MenuItem>
+                <MenuDivider />
+                <MenuItem>Link 3</MenuItem>
+              </MenuList>
+            </Menu> */}
+            <HStack>
+                <Link href="/"><Button variant="solid" colorScheme="blue" size="md" mr={2}>Login</Button></Link>
+                <Link href="/UserRegistration"><Button variant="outline" colorScheme="blue" size="md">Sign Up</Button></Link>
+            </HStack>
+          </Flex>
         </Flex>
-)
 
-export default NavBar;
+        {isOpen ? (
+          <Box pb={4} display={{ md: 'none' }}>
+            <Stack as={'nav'} spacing={4}>
+              {Links.map((link) => (
+                <NavLink key={link} link={link}>{link}</NavLink>
+              ))}
+            </Stack>
+          </Box>
+        ) : null}
+      </Box>
+    </>
+  );
+}

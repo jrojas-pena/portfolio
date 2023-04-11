@@ -4,14 +4,15 @@ export const Hero = ({ title }: { title: string }) => (
   <Flex
     justifyContent="center"
     alignItems="center"
-    height="100vh"
+    height="100px"
     bgGradient="linear(to-l, heroGradientStart, heroGradientEnd)"
     bgClip="text"
+    py="100px"
   >
-    <Heading fontSize="6vw">{title}</Heading>
+    <Heading fontSize="4vw">{title}</Heading>
   </Flex>
 )
 
 Hero.defaultProps = {
-  title: 'Cafe Programming',
+  title: 'Juan Rojas',
 }

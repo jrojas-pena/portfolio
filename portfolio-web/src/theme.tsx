@@ -1,6 +1,9 @@
 import { extendTheme } from '@chakra-ui/react'
 
-const fonts = { mono: `'Menlo', monospace` }
+const fonts = { 
+  mono: `'Menlo', monospace`,
+  roboto: `'Roboto', sans-serif`,
+ }
 
 const breakpoints = {
   sm: '40em',
@@ -17,11 +20,11 @@ const theme = extendTheme({
         _dark: '#ade3b8',
       },
       heroGradientStart: {
-        default: '#7928CA',
+        default: '#FF0080',
         _dark: '#e3a7f9',
       },
       heroGradientEnd: {
-        default: '#FF0080',
+        default: '#7928CA',
         _dark: '#fbec8f',
       },
     },

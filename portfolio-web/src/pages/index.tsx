@@ -29,7 +29,7 @@ import NavBar from "../components/NavBar";
 
 const Index = () => (
   <Container height="100vh">
-    <NavBar title="Cafe Programming" logo={<></>} />
+    <NavBar />
     <Hero />
     <Main>
       <Text color="text">
@@ -60,7 +60,7 @@ const Index = () => (
 
     <DarkModeSwitch />
     <Footer>
-      <Text>Next ❤️ Chakra</Text>
+      <Text>Juan Rojas</Text>
     </Footer>
     <CTA />
   </Container>
