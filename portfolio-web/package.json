@@ -6,15 +6,23 @@
     "start": "next start"
   },
   "dependencies": {
+    "@apollo/client": "^3.7.12",
     "@chakra-ui/icons": "^2.0.18",
     "@chakra-ui/react": "^2.5.5",
     "@chakra-ui/theme-tools": "^2.0.2",
     "@emotion/react": "^11.10.6",
     "@emotion/styled": "^11.10.6",
+    "@urql/exchange-graphcache": "^6.0.1",
+    "formik": "^2.2.9",
     "framer-motion": "^10.11.2",
+    "graphql-tag": "^2.12.6",
     "next": "latest",
+    "next-router": "^1.3.6",
+    "next-urql": "^5.0.0",
     "react": "^18.2.0",
-    "react-dom": "^18.2.0"
+    "react-dom": "^18.2.0",
+    "urql": "^4.0.0",
+    "wonka": "^6.3.1"
   },
   "devDependencies": {
     "@types/node": "^18.0.0",
