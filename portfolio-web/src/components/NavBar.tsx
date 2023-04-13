@@ -17,6 +17,7 @@ import {
   Stack,
 } from '@chakra-ui/react';
 import { HamburgerIcon, CloseIcon } from '@chakra-ui/icons';
+import Logo from './Logo';
 
 const Links = [ 'Projects', 'About', 'Contact'];
 
@@ -29,7 +30,7 @@ const NavLink = ({ children, link }: { children: ReactNode, link: string }) => (
       textDecoration: 'none',
       bg: useColorModeValue('gray.300', 'gray.700'),
     }}
-    href={link}>
+    href={"/" + link}>
     {children}
   </Link>
 );
@@ -48,7 +49,12 @@ export default function Simple() {
             display={{ md: 'none' }}
             onClick={isOpen ? onClose : onOpen}
           />
-          <HStack spacing={8} alignItems={'center'} >
+          
+            <HStack spacing={8} alignItems={'center'} >
+                
+            <HStack spacing={8} alignItems={'center'}>
+                <Box><Logo/></Box>
+            </HStack>
             <HStack
               as={'nav'}
               spacing={4}
@@ -57,9 +63,6 @@ export default function Simple() {
                 <NavLink key={link} link={link}>{link}</NavLink>
               ))}
             </HStack>
-          </HStack>
-          <HStack spacing={8} alignItems={'center'}>
-            <Box>Logo</Box>
           </HStack>
           <Flex alignItems={'center'}>
             {/* <Menu>
@@ -84,7 +87,7 @@ export default function Simple() {
               </MenuList>
             </Menu> */}
             <HStack>
-                <Link href="/"><Button variant="solid" colorScheme="blue" size="md" mr={2}>Login</Button></Link>
+                <Link href="/Login"><Button variant="solid" colorScheme="blue" size="md" mr={2}>Login</Button></Link>
                 <Link href="/UserRegistration"><Button variant="outline" colorScheme="blue" size="md">Sign Up</Button></Link>
             </HStack>
           </Flex>
