@@ -13,9 +13,10 @@ import {
     Text,
     useColorModeValue,
     Link,
-    Container,
   } from '@chakra-ui/react';
 import { useState } from 'react';
+import { Container } from '../components/Container';
+import { DarkModeSwitch } from '../components/DarkModeSwitch';
 import { Main } from '../components/Main';
 import NavBar from '../components/NavBar';
 
@@ -23,14 +24,14 @@ import NavBar from '../components/NavBar';
 const Projects = () => {
     
     return (
-        <Container height='100vh'>
+    <Container height='100vh'>
         <NavBar />
         <Main>
         <Flex
             minH={'100vh'}
             align={'center'}
             justify={'center'}
-            bg={useColorModeValue('gray.50', 'gray.800')}>
+            bg={useColorModeValue('gray.50', 'gray.900')}>
             <Stack spacing={8} mx={'auto'} py={12} px={6}>
                 <Stack align={'center'}>
                     <Heading fontSize={'4xl'} textAlign={'center'}>
@@ -40,7 +41,8 @@ const Projects = () => {
             </Stack>
         </Flex>
         </Main>
-        </Container>
+        <DarkModeSwitch />
+    </Container>
     );
 }
 

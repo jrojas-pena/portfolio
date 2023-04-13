@@ -13,11 +13,11 @@ import {
     Text,
     useColorModeValue,
     Link,
-    Container,
   } from '@chakra-ui/react';
 import { useState } from 'react';
 import NavBar from "../components/NavBar";
-
+import { Container } from '../components/Container';
+import { DarkModeSwitch } from '../components/DarkModeSwitch';
 
 export default function Contact() {
     
@@ -28,7 +28,7 @@ export default function Contact() {
             minH={'100vh'}
             align={'center'}
             justify={'center'}
-            bg={useColorModeValue('gray.50', 'gray.800')}>
+            bg={useColorModeValue('gray.50', 'gray.900')}>
             <Stack spacing={8} mx={'auto'} maxW={'lg'} py={12} px={6}>
                 <Stack align={'center'}>
                     <Heading fontSize={'4xl'} textAlign={'center'}>
@@ -37,6 +37,7 @@ export default function Contact() {
             </Stack>
             </Stack>
         </Flex>
+        <DarkModeSwitch />
         </Container>
     );
 }
