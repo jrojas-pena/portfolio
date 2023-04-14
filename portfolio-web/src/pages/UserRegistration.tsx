@@ -18,12 +18,6 @@ import { useState } from 'react';
 import { ViewIcon, ViewOffIcon } from '@chakra-ui/icons';
 import { InputField } from '../components/InputField';
 import { Formik, Form } from 'formik';
-// import { useRegisterMutation, MeQuery, MeDocument } from "../generated/graphql";
-// import { toErrorMap } from "../utils/toErrorMap";
-import { useRouter } from "next/router";
-import { withUrqlClient } from "next-urql";
-// import { createUrqlClient } from "../utils/createUrqlClient";
-// import { withApollo } from "../utils/withApollo";
 
 export default function SignupCard() {
   const [showPassword, setShowPassword] = useState(false);
@@ -39,9 +33,9 @@ export default function SignupCard() {
           <Heading fontSize={'4xl'} textAlign={'center'}>
             Sign up
           </Heading>
-          <Text fontSize={'lg'} color={'gray.600'}>
+          {/* <Text fontSize={'lg'} color={'gray.600'}>
             to enjoy all of our cool features ✌️
-          </Text>
+          </Text> */}
         </Stack>
         <Box
           rounded={'lg'}
@@ -49,51 +43,45 @@ export default function SignupCard() {
           boxShadow={'lg'}
           p={8}>
           <Stack spacing={4}>
-            <Formik initialValues={{ email: "", username: "", password: "" }}
-              onSubmit={async (values, { setErrors }) => {
-                // const response = await register({
-                //   variables: { options: values },
-                //   update: (cache, { data }) => {
-                //     cache.writeQuery<MeQuery>({
-                //       query: MeDocument,
-                //       data: {
-                //         __typename: "Query",
-                //         me: data?.register.user,
-                //       },
-                //     });
-                //   },
-                // });
-                // if (response.data?.register.errors) {
-                //   setErrors(toErrorMap(response.data.register.errors));
-                // } else if (response.data?.register.user) {
-                //   // worked
-                //   router.push("/");
-                // }
+            <Formik
+              initialValues={{ firstName: '', lastName: '', email: '', password: '' }}
+              onSubmit={async (values) => {
+                await new Promise((r) => setTimeout(r, 500));
+                console.log(JSON.stringify(values, null, 2));
               }}
             >
+            {({ isSubmitting }) => (
+            <Form>
             <HStack>
               <Box>
-                {/* <FormControl id="firstName" isRequired>
-                  <FormLabel>First Name</FormLabel>
-                  <Input type="text" />
-                </FormControl> */}
-                <InputField name={'firstName'} label={'First Name'}  />
+                <InputField
+                  name="firstName"
+                  placeholder="First Name"
+                  label="First Name"
+                  type="text"
+                />
               </Box>
               <Box>
-                <FormControl id="lastName">
-                  <FormLabel>Last Name</FormLabel>
-                  <Input type="text" />
-                </FormControl>
+                <InputField
+                  name="lastName"
+                  placeholder="Last Name"
+                  label="Last Name"
+                  type="text"
+                />
               </Box>
             </HStack>
-            <FormControl id="email" isRequired>
-              <FormLabel>Email address</FormLabel>
-              <Input type="email" />
-            </FormControl>
-            <FormControl id="password" isRequired>
-              <FormLabel>Password</FormLabel>
-              <InputGroup>
-                <Input type={showPassword ? 'text' : 'password'} />
+            <InputField
+              name="email"
+              placeholder="Email"
+              label="Email"
+              type="email"
+            />
+            <InputField
+              name="password"
+              placeholder="Password"
+              label="Password"
+              type={showPassword ? 'text' : 'password'}
+            >
                 <InputRightElement h={'full'}>
                   <Button
                     variant={'ghost'}
@@ -103,11 +91,12 @@ export default function SignupCard() {
                     {showPassword ? <ViewIcon /> : <ViewOffIcon />}
                   </Button>
                 </InputRightElement>
-              </InputGroup>
-            </FormControl>
-            <Stack spacing={10} pt={2}>
-              <Button
+            </InputField>
+            <Stack spacing={10} pt={3}> 
+            <Button
                 loadingText="Submitting"
+                type="submit"
+                isLoading={isSubmitting}
                 size="lg"
                 bg={'blue.400'}
                 color={'white'}
@@ -115,13 +104,15 @@ export default function SignupCard() {
                   bg: 'blue.500',
                 }}>
                 Sign up
-              </Button>
+            </Button>
             </Stack>
             <Stack pt={6}>
               <Text align={'center'}>
                 Already a user? <Link color={'blue.400'} href="/Login">Login</Link>
               </Text>
             </Stack>
+            </Form>
+            )}
             </Formik>
           </Stack>
         </Box>
