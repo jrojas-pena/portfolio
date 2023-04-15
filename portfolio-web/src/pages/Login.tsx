@@ -19,26 +19,17 @@ import {
 import { useMutation } from 'urql';
 import { InputField } from '../components/InputField';
 import { Form, Formik } from 'formik';
+import { useLoginMutation } from '../gql/graphql';
+import { toErrorMap } from '../utils/toErrorMap';
+import { useRouter } from 'next/router';
   
   interface LoginCardProps {}
 
-  const LOGIN_MUTATION = `mutation Login($options: UsernamePasswordInput!) {
-    login(options: $options) {
-      user {
-        username
-        
-      }
-      error {
-        field
-        message
-      }
-    }
-  }`
 
   export default function LoginCard() {
     const [showPassword, setShowPassword] = useState(false);
-
-    const [{}, login] = useMutation(LOGIN_MUTATION);
+    const router = useRouter();
+    const [{}, login] = useLoginMutation();
   
     return (
       <Flex
@@ -53,10 +44,15 @@ import { Form, Formik } from 'formik';
             </Heading>
           </Stack>
           <Formik
-              initialValues={{ firstName: '', lastName: '', email: '', password: '' }}
-              onSubmit={async (values) => {
-                await new Promise((r) => setTimeout(r, 500));
-                console.log(JSON.stringify(values, null, 2));
+              initialValues={{ username: '', password: '' }}
+              onSubmit={async (values, {setErrors}) => {
+                const response = await login(values);
+                if (response.data?.login.error){
+                  setErrors(toErrorMap(response.data.login.error))
+                }
+                else if (response.data?.login.user){
+                  router.push('/');
+                }
               }}
             >
 
@@ -71,10 +67,10 @@ import { Form, Formik } from 'formik';
              
             <Stack spacing={4}>
               <InputField
-              name="email"
-              placeholder="Email"
-              label="Email"
-              type="email"
+              name="username"
+              placeholder="Username"
+              label="Username"
+              type="text"
             />
             <InputField
               name="password"

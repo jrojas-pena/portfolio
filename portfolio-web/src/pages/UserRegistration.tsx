@@ -71,10 +71,10 @@ export default function SignupCard() {
               </Box>
             </HStack>
             <InputField
-              name="email"
-              placeholder="Email"
-              label="Email"
-              type="email"
+              name="username"
+              placeholder="Username"
+              label="Username"
+              type="text"
             />
             <InputField
               name="password"
