@@ -29,7 +29,7 @@ const main = async () => {
     disableTouch: true,
   });
 
-  app.use(cors({ origin: 'http://localhost:3000', credentials: true }));
+  // app.use(cors({ origin: 'http://localhost:3000', credentials: true }));
 
   app.use(
     session({
@@ -57,7 +57,7 @@ const main = async () => {
   await apolloServer.start();
   apolloServer.applyMiddleware({
     app,
-    cors: false,
+    // cors: false,
   });
 
   app.listen(4000, () => {

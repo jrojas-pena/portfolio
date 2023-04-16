@@ -46,7 +46,7 @@ import { useRouter } from 'next/router';
           <Formik
               initialValues={{ username: '', password: '' }}
               onSubmit={async (values, {setErrors}) => {
-                const response = await login(values);
+                const response = await login({options: values});
                 if (response.data?.login.error){
                   setErrors(toErrorMap(response.data.login.error))
                 }

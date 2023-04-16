@@ -18,9 +18,14 @@ import { useState } from 'react';
 import { ViewIcon, ViewOffIcon } from '@chakra-ui/icons';
 import { InputField } from '../components/InputField';
 import { Formik, Form } from 'formik';
+import { useRouter } from 'next/router';
+import { useRegisterUserMutation, UsernamePasswordInput } from '../gql/graphql';
+import { toErrorMap } from '../utils/toErrorMap';
 
 export default function SignupCard() {
   const [showPassword, setShowPassword] = useState(false);
+  const router = useRouter();
+  const [{}, register] = useRegisterUserMutation();
 
   return (
     <Flex
@@ -44,10 +49,21 @@ export default function SignupCard() {
           p={8}>
           <Stack spacing={4}>
             <Formik
-              initialValues={{ firstName: '', lastName: '', email: '', password: '' }}
-              onSubmit={async (values) => {
-                await new Promise((r) => setTimeout(r, 500));
-                console.log(JSON.stringify(values, null, 2));
+              initialValues={{ firstName: '', lastName: '', username: '', password: '' }}
+              onSubmit={async (values, {setErrors}) => {
+                const response = await register(
+                  { options: {
+                      password: values.password,
+                      username : values.username},
+                    user: { 
+                      firstName: values.firstName,
+                      lastName: values.lastName}});
+                if (response.data?.createUser){
+                  setErrors(toErrorMap(response.data.createUser.error))
+                }
+                else if (response.data?.createUser.user){
+                  router.push('/');
+                }
               }}
             >
             {({ isSubmitting }) => (

@@ -17,6 +17,14 @@ export class User {
   @Property({ type: 'text' })
   password!: string;
 
+  @Field(() => String)
+  @Property({ type: 'text', nullable: true })
+  firstName?: string;
+
+  @Field(() => String)
+  @Property({ type: 'text', nullable: true })
+  lastName?: string;
+
   constructor(username: string, password: string) {
     this.username = username;
     this.password = password;

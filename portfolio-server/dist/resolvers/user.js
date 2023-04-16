@@ -32,6 +32,19 @@ __decorate([
 UsernamePasswordInput = __decorate([
     (0, type_graphql_1.InputType)()
 ], UsernamePasswordInput);
+let UserInput = class UserInput {
+};
+__decorate([
+    (0, type_graphql_1.Field)(),
+    __metadata("design:type", String)
+], UserInput.prototype, "firstName", void 0);
+__decorate([
+    (0, type_graphql_1.Field)(),
+    __metadata("design:type", String)
+], UserInput.prototype, "lastName", void 0);
+UserInput = __decorate([
+    (0, type_graphql_1.InputType)()
+], UserInput);
 let FieldError = class FieldError {
 };
 __decorate([
@@ -66,7 +79,7 @@ let UserResolver = class UserResolver {
         const user = await em.findOne(User_1.User, { id: req.session.userId });
         return user;
     }
-    async createUser(options, { em, req }) {
+    async createUser(options, userData, { em, req }) {
         if (options.username.length <= 2) {
             return {
                 error: [
@@ -91,6 +104,8 @@ let UserResolver = class UserResolver {
         const user = em.create(User_1.User, {
             username: options.username,
             password: hashedPassword,
+            firstName: userData.firstName,
+            lastName: userData.lastName,
         });
         try {
             await em.persistAndFlush(user);
@@ -145,11 +160,13 @@ __decorate([
     __metadata("design:returntype", Promise)
 ], UserResolver.prototype, "me", null);
 __decorate([
-    (0, type_graphql_1.Mutation)(() => User_1.User),
+    (0, type_graphql_1.Mutation)(() => UserResponse),
     __param(0, (0, type_graphql_1.Arg)('options', () => UsernamePasswordInput)),
-    __param(1, (0, type_graphql_1.Ctx)()),
+    __param(1, (0, type_graphql_1.Arg)('user', () => UserInput)),
+    __param(2, (0, type_graphql_1.Ctx)()),
     __metadata("design:type", Function),
-    __metadata("design:paramtypes", [UsernamePasswordInput, Object]),
+    __metadata("design:paramtypes", [UsernamePasswordInput,
+        UserInput, Object]),
     __metadata("design:returntype", Promise)
 ], UserResolver.prototype, "createUser", null);
 __decorate([

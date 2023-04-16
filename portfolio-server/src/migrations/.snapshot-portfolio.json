@@ -98,6 +98,24 @@
           "primary": false,
           "nullable": false,
           "mappedType": "text"
+        },
+        "first_name": {
+          "name": "first_name",
+          "type": "text",
+          "unsigned": false,
+          "autoincrement": false,
+          "primary": false,
+          "nullable": true,
+          "mappedType": "text"
+        },
+        "last_name": {
+          "name": "last_name",
+          "type": "text",
+          "unsigned": false,
+          "autoincrement": false,
+          "primary": false,
+          "nullable": true,
+          "mappedType": "text"
         }
       },
       "name": "user",

@@ -48,7 +48,9 @@ const main = async () => {
         context: ({ req, res }) => ({ em: entityManager, req, res }),
     });
     await apolloServer.start();
-    apolloServer.applyMiddleware({ app });
+    apolloServer.applyMiddleware({
+        app,
+    });
     app.listen(4000, () => {
         console.log('Server started on localhost:4000');
     });

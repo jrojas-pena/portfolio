@@ -20,6 +20,14 @@ class UsernamePasswordInput {
   password: string;
 }
 
+@InputType()
+class UserInput {
+  @Field()
+  firstName: string;
+  @Field()
+  lastName: string;
+}
+
 @ObjectType()
 class FieldError {
   @Field()
@@ -51,9 +59,10 @@ export class UserResolver {
   }
 
   // Create a user
-  @Mutation(() => User)
+  @Mutation(() => UserResponse)
   async createUser(
     @Arg('options', () => UsernamePasswordInput) options: UsernamePasswordInput,
+    @Arg('user', () => UserInput) userData: UserInput,
     @Ctx() { em, req }: MyContext,
   ): Promise<UserResponse> {
     if (options.username.length <= 2) {
@@ -82,6 +91,8 @@ export class UserResolver {
     const user = em.create(User, {
       username: options.username,
       password: hashedPassword,
+      firstName: userData.firstName,
+      lastName: userData.lastName,
     });
 
     try {
