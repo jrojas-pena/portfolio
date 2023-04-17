@@ -18,10 +18,12 @@ import {
 } from '@chakra-ui/react';
 import { HamburgerIcon, CloseIcon } from '@chakra-ui/icons';
 import Logo from './Logo';
+import  NextLink  from 'next/link';
 
 const Links = [ 'Projects', 'About', 'Contact'];
 
 const NavLink = ({ children, link }: { children: ReactNode, link: string }) => (
+  <NextLink href={"/" + link}>
   <Link
     px={2}
     py={2}
@@ -33,6 +35,7 @@ const NavLink = ({ children, link }: { children: ReactNode, link: string }) => (
     href={"/" + link}>
     {children}
   </Link>
+  </NextLink>
 );
 
 export default function Simple() {
@@ -87,8 +90,12 @@ export default function Simple() {
               </MenuList>
             </Menu> */}
             <HStack>
-                <Link href="/Login"><Button variant="solid" colorScheme="blue" size="md" mr={2}>Login</Button></Link>
-                <Link href="/UserRegistration"><Button variant="outline" colorScheme="blue" size="md">Sign Up</Button></Link>
+                <NextLink href="/Login">
+                <Link><Button variant="solid" colorScheme="blue" size="md" mr={2}>Login</Button></Link>
+                </NextLink>
+                <NextLink href="/UserRegistration">
+                <Link><Button variant="outline" colorScheme="blue" size="md">Sign Up</Button></Link>
+                </NextLink>
             </HStack>
           </Flex>
         </Flex>
