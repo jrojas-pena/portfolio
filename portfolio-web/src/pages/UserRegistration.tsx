@@ -58,7 +58,7 @@ export default function SignupCard() {
                     user: { 
                       firstName: values.firstName,
                       lastName: values.lastName}});
-                if (response.data?.createUser){
+                if (response.data?.createUser.error){
                   setErrors(toErrorMap(response.data.createUser.error))
                 }
                 else if (response.data?.createUser.user){
