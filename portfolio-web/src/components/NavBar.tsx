@@ -15,15 +15,18 @@ import {
   useDisclosure,
   useColorModeValue,
   Stack,
+  Text,
 } from '@chakra-ui/react';
 import { HamburgerIcon, CloseIcon } from '@chakra-ui/icons';
 import Logo from './Logo';
 import  NextLink  from 'next/link';
+import { useMeQuery } from '../gql/graphql';
 
 const Links = [ 'Projects', 'About', 'Contact'];
 
 const NavLink = ({ children, link }: { children: ReactNode, link: string }) => (
-  <NextLink href={"/" + link}>
+  <>
+  <NextLink href={"/" + link} passHref legacyBehavior>
   <Link
     px={2}
     py={2}
@@ -36,10 +39,61 @@ const NavLink = ({ children, link }: { children: ReactNode, link: string }) => (
     {children}
   </Link>
   </NextLink>
+  </> 
 );
 
-export default function Simple() {
+export default function NavBar() {
   const { isOpen, onOpen, onClose } = useDisclosure();
+  const [{data, fetching}] = useMeQuery();
+
+  let user = null;
+  if(!data?.me){
+    user = (
+      <>
+      <HStack>
+                <NextLink href="/Login" passHref legacyBehavior>
+                <Link><Button variant="solid" colorScheme="blue" size="md" mr={2}>Login</Button></Link>
+                </NextLink>
+                <NextLink href="/UserRegistration" passHref legacyBehavior>
+                <Link><Button variant="outline" colorScheme="blue" size="md">Sign Up</Button></Link>
+                </NextLink>
+      </HStack>
+      </>
+    )
+  }
+  else {
+    user = (
+      <>
+      <Flex alignItems={'center'}>
+      <Menu>
+          <MenuButton
+            as={Button}
+            rounded={'full'}
+            variant={'link'}
+            cursor={'pointer'}
+            minW={0}>
+              <HStack spacing={2} alignItems={'center'}>
+            <Avatar
+              size={'sm'}
+              src={
+                'https://images.unsplash.com/photo-1493666438817-866a91353ca9?ixlib=rb-0.3.5&q=80&fm=jpg&crop=faces&fit=crop&h=200&w=200&s=b616b2c5b373a80ffc9636ba24f7a4a9'
+              }
+            />
+
+            <Text ml={2}>{data.me.username}</Text>
+            </HStack>
+          </MenuButton>
+          <MenuList>
+            <MenuItem><NextLink href="/AddProject" passHref legacyBehavior><Link>Create Post</Link></NextLink></MenuItem>
+            <MenuItem><NextLink href="/Projects" passHref legacyBehavior><Link>View Posts</Link></NextLink></MenuItem>
+            <MenuDivider />
+            <MenuItem><NextLink href="/logout" passHref legacyBehavior><Link>Logout</Link></NextLink></MenuItem>
+          </MenuList>
+      </Menu>
+      </Flex>
+      </>
+    )
+  }
 
   return (
     <>
@@ -68,35 +122,7 @@ export default function Simple() {
             </HStack>
           </HStack>
           <Flex alignItems={'center'}>
-            {/* <Menu>
-              <MenuButton
-                as={Button}
-                rounded={'full'}
-                variant={'link'}
-                cursor={'pointer'}
-                minW={0}>
-                <Avatar
-                  size={'sm'}
-                  src={
-                    'https://images.unsplash.com/photo-1493666438817-866a91353ca9?ixlib=rb-0.3.5&q=80&fm=jpg&crop=faces&fit=crop&h=200&w=200&s=b616b2c5b373a80ffc9636ba24f7a4a9'
-                  }
-                />
-              </MenuButton>
-              <MenuList>
-                <MenuItem>Link 1</MenuItem>
-                <MenuItem>Link 2</MenuItem>
-                <MenuDivider />
-                <MenuItem>Link 3</MenuItem>
-              </MenuList>
-            </Menu> */}
-            <HStack>
-                <NextLink href="/Login">
-                <Link><Button variant="solid" colorScheme="blue" size="md" mr={2}>Login</Button></Link>
-                </NextLink>
-                <NextLink href="/UserRegistration">
-                <Link><Button variant="outline" colorScheme="blue" size="md">Sign Up</Button></Link>
-                </NextLink>
-            </HStack>
+            {user}
           </Flex>
         </Flex>
 
