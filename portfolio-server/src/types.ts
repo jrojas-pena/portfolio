@@ -6,3 +6,10 @@ export type MyContext = {
   req: Request;
   res: Response;
 };
+
+declare module 'express-session' {
+  interface SessionData {
+    userId: number;
+    page_views: number;
+  }
+}
