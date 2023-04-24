@@ -23,11 +23,12 @@ var __importStar = (this && this.__importStar) || function (mod) {
     return result;
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.__secret__ = exports.__dbpassword__ = exports.__dbuser__ = exports.__prod__ = void 0;
+exports.COOKIE_NAME = exports.__secret__ = exports.__dbpassword__ = exports.__dbuser__ = exports.__prod__ = void 0;
 const dotenv = __importStar(require("dotenv"));
 dotenv.config();
 exports.__prod__ = process.env.NODE_ENV === 'production';
 exports.__dbuser__ = process.env.DB_USER;
 exports.__dbpassword__ = process.env.DB_PASSWORD;
 exports.__secret__ = process.env.SECRET;
+exports.COOKIE_NAME = 'qid';
 //# sourceMappingURL=constants.js.map

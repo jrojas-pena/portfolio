@@ -39,7 +39,7 @@ const main = async () => {
             'https://localhost:3001',
             'http://localhost',
         ],
-        credentials: false,
+        credentials: true,
     }));
     app.use((0, express_session_1.default)({
         name: 'qid',

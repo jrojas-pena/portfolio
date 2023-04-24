@@ -41,7 +41,7 @@ const main = async () => {
         'https://localhost:3001',
         'http://localhost',
       ],
-      credentials: false,
+      credentials: true,
     }),
   );
 
@@ -79,6 +79,10 @@ const main = async () => {
     app,
     cors: false,
   });
+
+  // app.listen(4000, () => {
+  //   console.log('Server started on localhost:4000');
+  // });
 
   httpsServer.listen(4000, () => {
     console.log('Server started on localhost:4000');
