@@ -20,7 +20,7 @@ import {
 import { HamburgerIcon, CloseIcon } from '@chakra-ui/icons';
 import Logo from './Logo';
 import  NextLink  from 'next/link';
-import { useMeQuery } from '../gql/graphql';
+import { useLogoutMutation, useMeQuery } from '../gql/graphql';
 
 const Links = [ 'Projects', 'About', 'Contact'];
 
@@ -45,6 +45,7 @@ const NavLink = ({ children, link }: { children: ReactNode, link: string }) => (
 export default function NavBar() {
   const { isOpen, onOpen, onClose } = useDisclosure();
   const [{data, fetching}] = useMeQuery();
+  const [{}, logout] = useLogoutMutation();
 
   let user = null;
   if(!data?.me){
@@ -87,7 +88,7 @@ export default function NavBar() {
             <MenuItem><NextLink href="/AddProject" passHref legacyBehavior><Link>Create Post</Link></NextLink></MenuItem>
             <MenuItem><NextLink href="/Projects" passHref legacyBehavior><Link>View Posts</Link></NextLink></MenuItem>
             <MenuDivider />
-            <MenuItem><NextLink href="/logout" passHref legacyBehavior><Link>Logout</Link></NextLink></MenuItem>
+            <MenuItem><Link onClick={()=>{logout({});}}>Logout</Link></MenuItem>
           </MenuList>
       </Menu>
       </Flex>
