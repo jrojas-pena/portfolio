@@ -53,7 +53,7 @@ const client = createClient({
               else {
                 return {
                   me: result.register.user
-                };
+                }
               }
             }
           )         
