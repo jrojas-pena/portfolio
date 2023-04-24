@@ -139,15 +139,13 @@ export type LoginMutationVariables = Exact<{
 
 export type LoginMutation = {
   __typename?: 'Mutation';
-  login?: {
-    __typename?: 'UserResponse';
-    user?: { __typename?: 'User'; id: number; username: string } | null;
-    error?: Array<{
-      __typename?: 'FieldError';
-      message: string;
-      field: string;
-    }> | null;
-  } | null;
+  login?:
+    | ({ __typename?: 'UserResponse' } & {
+        ' $fragmentRefs'?: {
+          RegularUserResponseFragment: RegularUserResponseFragment;
+        };
+      })
+    | null;
 };
 
 export type RegisterUserMutationVariables = Exact<{
@@ -157,21 +155,10 @@ export type RegisterUserMutationVariables = Exact<{
 
 export type RegisterUserMutation = {
   __typename?: 'Mutation';
-  createUser: {
-    __typename?: 'UserResponse';
-    user?: {
-      __typename?: 'User';
-      username: string;
-      password: string;
-      lastName: string;
-      id: number;
-      firstName: string;
-    } | null;
-    error?: Array<{
-      __typename?: 'FieldError';
-      message: string;
-      field: string;
-    }> | null;
+  createUser: { __typename?: 'UserResponse' } & {
+    ' $fragmentRefs'?: {
+      RegularUserResponseFragment: RegularUserResponseFragment;
+    };
   };
 };
 
@@ -209,16 +196,10 @@ export const RegularUserResponseFragmentDoc = gql`
 export const LoginDocument = gql`
   mutation Login($options: UsernamePasswordInput!) {
     login(options: $options) {
-      user {
-        id
-        username
-      }
-      error {
-        message
-        field
-      }
+      ...RegularUserResponse
     }
   }
+  ${RegularUserResponseFragmentDoc}
 `;
 
 export function useLoginMutation() {
@@ -227,19 +208,10 @@ export function useLoginMutation() {
 export const RegisterUserDocument = gql`
   mutation RegisterUser($options: UsernamePasswordInput!, $user: UserInput!) {
     createUser(options: $options, user: $user) {
-      user {
-        username
-        password
-        lastName
-        id
-        firstName
-      }
-      error {
-        message
-        field
-      }
+      ...RegularUserResponse
     }
   }
+  ${RegularUserResponseFragmentDoc}
 `;
 
 export function useRegisterUserMutation() {
