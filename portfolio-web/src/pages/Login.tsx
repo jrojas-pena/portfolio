@@ -19,7 +19,7 @@ import {
 import { useMutation } from 'urql';
 import { InputField } from '../components/InputField';
 import { Form, Formik } from 'formik';
-import { useLoginMutation } from '../gql/graphql';
+import { useLoginMutation, LoginMutation } from '../gql/graphql';
 import { toErrorMap } from '../utils/toErrorMap';
 import { useRouter } from 'next/router';
   
@@ -47,11 +47,17 @@ import { useRouter } from 'next/router';
               initialValues={{ username: '', password: '' }}
               onSubmit={async (values, {setErrors}) => {
                 const response = await login({options: values});
-                if (response.data?.login.error){
-                  setErrors(toErrorMap(response.data.login.error))
-                }
-                else if (response.data?.login.user){
-                  router.push('/');
+                if (response.data?.login){
+                  const loginResponse = response.data.login as typeof response.data.login & {
+                    error: { field: string; message: string }[];
+                    user: { id: number; username: string };
+                  };
+                  if (loginResponse.error){
+                    setErrors(toErrorMap(loginResponse.error))
+                  }
+                  else if (loginResponse.user){
+                    router.push('/');
+                  }
                 }
               }}
             >
