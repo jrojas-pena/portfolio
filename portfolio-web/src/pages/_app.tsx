@@ -3,7 +3,9 @@ import theme from '../theme';
 import type { AppProps } from 'next/app';
 import { Provider, createClient, fetchExchange } from 'urql';
 import { cacheExchange } from '@urql/exchange-graphcache';
-import { LoginMutation, MeDocument, MeQuery } from '../gql/graphql';
+import { LoginMutation, LogoutMutation, MeDocument, MeQuery, RegisterUserMutation } from '../gql/graphql';
+import { InMemoryCache } from '@apollo/client';
+import { createFragmentRegistry } from '@apollo/client/cache';
 
 
 function betterUpdateQuery<Result, Query>(
@@ -20,9 +22,37 @@ const client = createClient({
   fetchOptions: {
     credentials: 'include'
   },
+  // cache: new InMemoryCache({
+  //   fragments: createFragmentRegistry(gql`
+  //   fragment RegularUserResponse on UserResponse {
+  //     error {
+  //       ...RegularError
+  //     }
+  //     user {
+  //       ...RegularUser
+  //     }
+  //   }
+  //   fragment RegularError on FieldError {
+  //     field
+  //     message
+  //   }
+  //   fragment RegularUser on User {
+  //     id
+  //     username
+  //   }
+  // `)
+  // }),
   exchanges: [cacheExchange({
     updates: {
       Mutation: {
+        logout: (_result, args, cache, info) => {
+          betterUpdateQuery<LogoutMutation, MeQuery>(
+            cache,
+            {query: MeDocument},
+            _result,
+            () => ({me: null})
+          )
+        },
         login: (_result, args, cache, info) => {
           betterUpdateQuery<LoginMutation, MeQuery>(
             cache,
@@ -42,7 +72,7 @@ const client = createClient({
         },
         
         register: (_result, args, cache, info) => {
-          betterUpdateQuery<LoginMutation, MeQuery>(
+          betterUpdateQuery<RegisterUserMutation, MeQuery>(
             cache,
             {query: MeDocument},
             _result,
