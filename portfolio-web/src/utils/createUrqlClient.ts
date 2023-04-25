@@ -20,19 +20,21 @@
 // import gql from 'graphql-tag';
 // // import { isServer } from './isServer';
 
-import { cacheExchange, fetchExchange } from 'urql';
+import { fetchExchange } from 'urql';
 import { betterUpdateQuery } from './betterUpdateQuery';
 import {
   LoginMutation,
   LogoutMutation,
+  MeDocument,
   MeQuery,
   RegisterUserMutation,
 } from '../gql/graphql';
+import { cacheExchange } from '@urql/exchange-graphcache';
 
 export const createUrqlClient = (ssrExchange: any) => ({
   url: 'https://localhost/backend/graphql',
   fetchOptions: {
-    credentials: 'include',
+    credentials: 'include' as const,
   },
   exchanges: [
     cacheExchange({
@@ -82,6 +84,7 @@ export const createUrqlClient = (ssrExchange: any) => ({
         },
       },
     }),
+    ssrExchange,
     fetchExchange,
   ],
 });

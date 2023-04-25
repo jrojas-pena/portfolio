@@ -19,6 +19,8 @@ import ReactDOM from "react-dom";
 import { ChakraProvider } from "@chakra-ui/react";
 import MyApp from "./_app";
 import NavBar from "../components/NavBar";
+import { createUrqlClient } from '../utils/createUrqlClient'
+import { withUrqlClient } from 'next-urql'
 
 
 // ReactDOM.render(
@@ -66,4 +68,4 @@ const Index = () => (
   </Container>
 )
 
-export default Index
+export default withUrqlClient(createUrqlClient)(Index);
