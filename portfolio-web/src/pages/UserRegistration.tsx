@@ -21,8 +21,10 @@ import { Formik, Form } from 'formik';
 import { useRouter } from 'next/router';
 import { useRegisterUserMutation, UsernamePasswordInput } from '../gql/graphql';
 import { toErrorMap } from '../utils/toErrorMap';
+import { withUrqlClient } from 'next-urql';
+import { createUrqlClient } from '../utils/createUrqlClient';
 
-export default function SignupCard() {
+const SignupCard: React.FC<{}> = ({}) => {
   const [showPassword, setShowPassword] = useState(false);
   const router = useRouter();
   const [{}, register] = useRegisterUserMutation();
@@ -58,10 +60,14 @@ export default function SignupCard() {
                     user: { 
                       firstName: values.firstName,
                       lastName: values.lastName}});
-                if (response.data?.createUser.error){
-                  setErrors(toErrorMap(response.data.createUser.error))
+                const singupResponse = response.data.createUser as typeof response.data.createUser & {
+                  error: { field: string; message: string }[];
+                  user: { id: number; username: string };
+                };
+                if (singupResponse.error){
+                  setErrors(toErrorMap(singupResponse.error))
                 }
-                else if (response.data?.createUser.user){
+                else if (singupResponse.user){
                   router.push('/');
                 }
               }}
@@ -136,3 +142,5 @@ export default function SignupCard() {
     </Flex>
   );
 }
+
+export default withUrqlClient(createUrqlClient)(SignupCard);
