@@ -1,0 +1,9 @@
+query Posts {
+  posts {
+    body
+    createdAt
+    id
+    title
+    updatedAt
+  }
+}
