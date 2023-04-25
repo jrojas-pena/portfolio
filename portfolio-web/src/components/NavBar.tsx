@@ -21,6 +21,8 @@ import { HamburgerIcon, CloseIcon } from '@chakra-ui/icons';
 import Logo from './Logo';
 import  NextLink  from 'next/link';
 import { useLogoutMutation, useMeQuery } from '../gql/graphql';
+import { useState } from 'react';
+
 
 const Links = [ 'Projects', 'About', 'Contact'];
 
@@ -46,9 +48,15 @@ export default function NavBar() {
   const { isOpen, onOpen, onClose } = useDisclosure();
   const [{data, fetching}] = useMeQuery();
   const [{}, logout] = useLogoutMutation();
+  const [isLoggedIn, setIsLoggedIn] = useState(data?.me !== null);
+
+  const handleLogout = async () => {
+    await logout({});
+    setIsLoggedIn(false);
+  }
 
   let user = null;
-  if(!data?.me){
+  if(!isLoggedIn){
     user = (
       <>
       <HStack>
@@ -88,7 +96,7 @@ export default function NavBar() {
             <MenuItem><NextLink href="/AddProject" passHref legacyBehavior><Link>Create Post</Link></NextLink></MenuItem>
             <MenuItem><NextLink href="/Projects" passHref legacyBehavior><Link>View Posts</Link></NextLink></MenuItem>
             <MenuDivider />
-            <MenuItem><Link onClick={()=>{logout({});}}>Logout</Link></MenuItem>
+            <MenuItem><Link onClick={()=>{handleLogout();}}>Logout</Link></MenuItem>
           </MenuList>
       </Menu>
       </Flex>
