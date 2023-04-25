@@ -31,7 +31,7 @@ import { withUrqlClient } from 'next-urql'
 
 const Index = () => (
   <Container height="100vh">
-    <NavBar />
+    <NavBar pageProps={undefined} />
     <Hero />
     <Main>
       <Text color="text">

@@ -22,7 +22,10 @@ import Logo from './Logo';
 import  NextLink  from 'next/link';
 import { useLogoutMutation, useMeQuery } from '../gql/graphql';
 import { useState } from 'react';
+import { withUrqlClient } from 'next-urql';
+import { createUrqlClient } from '../utils/createUrqlClient';
 
+interface NavBarProps {}
 
 const Links = [ 'Projects', 'About', 'Contact'];
 
@@ -44,7 +47,7 @@ const NavLink = ({ children, link }: { children: ReactNode, link: string }) => (
   </> 
 );
 
-export default function NavBar() {
+const NavBar = () => {
   const { isOpen, onOpen, onClose } = useDisclosure();
   const [{data, fetching}] = useMeQuery();
   const [{}, logout] = useLogoutMutation();
@@ -148,3 +151,5 @@ export default function NavBar() {
     </>
   );
 }
+
+export default withUrqlClient(createUrqlClient)(NavBar);
