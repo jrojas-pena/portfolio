@@ -24,7 +24,7 @@ export default function About() {
     
     return (
         <Container height={'100vh'} bg={'gray.100'}>
-        <NavBar />
+        <NavBar pageProps={undefined} />
         <Flex
             minH={'100vh'}
             align={'center'}

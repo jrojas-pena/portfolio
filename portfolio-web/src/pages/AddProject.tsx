@@ -25,7 +25,7 @@ const AddProject = () => {
     
     return (
     <Container height='100vh'>
-        <NavBar />
+        <NavBar pageProps={undefined} />
         <Main>
         <Flex
             minH={'100vh'}

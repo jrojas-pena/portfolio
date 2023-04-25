@@ -23,7 +23,7 @@ export default function Contact() {
     
     return (
         <Container height={'100vh'} maxW={'100vw'} bg={'gray.100'}>
-        <NavBar />
+        <NavBar pageProps={undefined} />
         <Flex
             minH={'100vh'}
             align={'center'}
