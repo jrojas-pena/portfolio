@@ -48,7 +48,7 @@ export default function NavBar() {
   const { isOpen, onOpen, onClose } = useDisclosure();
   const [{data, fetching}] = useMeQuery();
   const [{}, logout] = useLogoutMutation();
-  const [isLoggedIn, setIsLoggedIn] = useState(data?.me !== null);
+  const [isLoggedIn, setIsLoggedIn] = useState(data?.me ? true : false);
 
   const handleLogout = async () => {
     await logout({});
