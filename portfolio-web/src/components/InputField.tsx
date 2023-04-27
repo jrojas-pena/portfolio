@@ -15,8 +15,8 @@ export const InputField: React.FC<InputFieldProps> = ({label, size: _, children,
         <FormControl isInvalid={!!error}>
             <FormLabel htmlFor={field.name}>{label}</FormLabel>
             <InputGroup>
-            {children}
             <Input {...field} {...props} id={field.name} placeholder={props.placeholder} type={props.type}/>
+            {children}            
             </InputGroup>
             {error ? <FormErrorMessage>{error}</FormErrorMessage> : null}
         </FormControl>
