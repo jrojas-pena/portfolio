@@ -1,4 +1,4 @@
-/* eslint-disable */
+/* eslint-enable */
 import { TypedDocumentNode as DocumentNode } from '@graphql-typed-document-node/core';
 import gql from 'graphql-tag';
 import * as Urql from 'urql';
@@ -174,6 +174,20 @@ export type MeQuery = {
   me?: { __typename?: 'User'; username: string; id: number } | null;
 };
 
+export type PostsQueryVariables = Exact<{ [key: string]: never }>;
+
+export type PostsQuery = {
+  __typename?: 'Query';
+  posts: Array<{
+    __typename?: 'Post';
+    body: string;
+    createdAt: string;
+    id: number;
+    title: string;
+    updatedAt: string;
+  }>;
+};
+
 export const RegularErrorFragmentDoc = gql`
   fragment RegularError on FieldError {
     field
@@ -249,6 +263,26 @@ export function useMeQuery(
 ) {
   return Urql.useQuery<MeQuery, MeQueryVariables>({
     query: MeDocument,
+    ...options,
+  });
+}
+export const PostsDocument = gql`
+  query Posts {
+    posts {
+      body
+      createdAt
+      id
+      title
+      updatedAt
+    }
+  }
+`;
+
+export function usePostsQuery(
+  options?: Omit<Urql.UseQueryArgs<PostsQueryVariables>, 'query'>,
+) {
+  return Urql.useQuery<PostsQuery, PostsQueryVariables>({
+    query: PostsDocument,
     ...options,
   });
 }

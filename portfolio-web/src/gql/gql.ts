@@ -20,6 +20,7 @@ const documents = {
     "mutation Logout {\n  logout\n}": types.LogoutDocument,
     "mutation RegisterUser($options: UsernamePasswordInput!, $user: UserInput!) {\n  createUser(options: $options, user: $user) {\n    ...RegularUserResponse\n  }\n}": types.RegisterUserDocument,
     "query Me {\n  me {\n    username\n    id\n  }\n}": types.MeDocument,
+    "query Posts {\n  posts {\n    body\n    createdAt\n    id\n    title\n    updatedAt\n  }\n}": types.PostsDocument,
 };
 
 /**
@@ -64,6 +65,10 @@ export function graphql(source: "mutation RegisterUser($options: UsernamePasswor
  * The graphql function is used to parse GraphQL queries into a document that can be used by GraphQL clients.
  */
 export function graphql(source: "query Me {\n  me {\n    username\n    id\n  }\n}"): (typeof documents)["query Me {\n  me {\n    username\n    id\n  }\n}"];
+/**
+ * The graphql function is used to parse GraphQL queries into a document that can be used by GraphQL clients.
+ */
+export function graphql(source: "query Posts {\n  posts {\n    body\n    createdAt\n    id\n    title\n    updatedAt\n  }\n}"): (typeof documents)["query Posts {\n  posts {\n    body\n    createdAt\n    id\n    title\n    updatedAt\n  }\n}"];
 
 export function graphql(source: string) {
   return (documents as any)[source] ?? {};
