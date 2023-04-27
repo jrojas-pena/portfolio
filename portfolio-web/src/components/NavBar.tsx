@@ -99,7 +99,7 @@ const NavBar = () => {
             <MenuItem><NextLink href="/AddProject" passHref legacyBehavior><Link>Create Post</Link></NextLink></MenuItem>
             <MenuItem><NextLink href="/Projects" passHref legacyBehavior><Link>View Posts</Link></NextLink></MenuItem>
             <MenuDivider />
-            <MenuItem><Link onClick={()=>{handleLogout();}}>Logout</Link></MenuItem>
+            <MenuItem><Link onClick={()=>{handleLogout();}} href='/'>Logout</Link></MenuItem>
           </MenuList>
       </Menu>
       </Flex>
