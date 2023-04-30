@@ -1,5 +1,12 @@
-import { Entity, PrimaryKey, Property } from '@mikro-orm/core';
+import {
+  Entity,
+  PrimaryKey,
+  Property,
+  OneToMany,
+  Collection,
+} from '@mikro-orm/core';
 import { Field, ObjectType } from 'type-graphql';
+import { Post } from './Post';
 
 @ObjectType()
 @Entity()
@@ -24,6 +31,13 @@ export class User {
   @Field(() => String)
   @Property({ type: 'text', nullable: true })
   lastName?: string;
+
+  @Field(() => String)
+  @Property({ type: 'text', nullable: true })
+  profilePicture?: string;
+
+  @OneToMany(() => Post, (post) => post.author)
+  posts = new Collection<Post>(this);
 
   constructor(username: string, password: string) {
     this.username = username;

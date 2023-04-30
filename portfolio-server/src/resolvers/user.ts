@@ -94,6 +94,7 @@ export class UserResolver {
       password: hashedPassword,
       firstName: userData.firstName,
       lastName: userData.lastName,
+      posts: [],
     });
 
     try {

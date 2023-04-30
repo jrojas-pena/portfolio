@@ -52,6 +52,15 @@
           "nullable": false,
           "length": 6,
           "mappedType": "datetime"
+        },
+        "image_uri": {
+          "name": "image_uri",
+          "type": "text",
+          "unsigned": false,
+          "autoincrement": false,
+          "primary": false,
+          "nullable": true,
+          "mappedType": "text"
         }
       },
       "name": "post",
@@ -110,6 +119,15 @@
         },
         "last_name": {
           "name": "last_name",
+          "type": "text",
+          "unsigned": false,
+          "autoincrement": false,
+          "primary": false,
+          "nullable": true,
+          "mappedType": "text"
+        },
+        "profile_picture": {
+          "name": "profile_picture",
           "type": "text",
           "unsigned": false,
           "autoincrement": false,

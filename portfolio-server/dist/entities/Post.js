@@ -12,6 +12,7 @@ Object.defineProperty(exports, "__esModule", { value: true });
 exports.Post = void 0;
 const core_1 = require("@mikro-orm/core");
 const type_graphql_1 = require("type-graphql");
+const User_1 = require("./User");
 let Post = class Post {
     constructor(title, body) {
         this.createdAt = new Date();
@@ -25,6 +26,11 @@ __decorate([
     (0, core_1.PrimaryKey)(),
     __metadata("design:type", Number)
 ], Post.prototype, "id", void 0);
+__decorate([
+    (0, type_graphql_1.Field)(() => User_1.User),
+    (0, core_1.ManyToOne)({ primary: true }),
+    __metadata("design:type", User_1.User)
+], Post.prototype, "author", void 0);
 __decorate([
     (0, type_graphql_1.Field)(() => String),
     (0, core_1.Property)(),
@@ -45,6 +51,11 @@ __decorate([
     (0, core_1.Property)({ onUpdate: () => new Date(), type: 'date' }),
     __metadata("design:type", Object)
 ], Post.prototype, "updatedAt", void 0);
+__decorate([
+    (0, type_graphql_1.Field)(() => String),
+    (0, core_1.Property)({ type: 'text', nullable: true }),
+    __metadata("design:type", String)
+], Post.prototype, "imageUri", void 0);
 Post = __decorate([
     (0, type_graphql_1.ObjectType)(),
     (0, core_1.Entity)(),

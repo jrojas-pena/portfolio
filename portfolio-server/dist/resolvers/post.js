@@ -13,6 +13,7 @@ var __param = (this && this.__param) || function (paramIndex, decorator) {
 };
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.PostResolver = void 0;
+const User_1 = require("../entities/User");
 const Post_1 = require("../entities/Post");
 const type_graphql_1 = require("type-graphql");
 let PostResolver = class PostResolver {
@@ -22,12 +23,18 @@ let PostResolver = class PostResolver {
     post(id, { em }) {
         return em.findOne(Post_1.Post, { id });
     }
-    async createPost(title, body, { em }) {
+    async createPost(title, body, { em, req }) {
+        if (!req.session.userId) {
+            return null;
+        }
+        const user = (await em.findOne(User_1.User, { id: req.session.userId }));
         const post = em.create(Post_1.Post, {
             title,
             body,
             createdAt: '',
             updatedAt: '',
+            author: user,
+            imageUri: '',
         });
         await em.persistAndFlush(post);
         return post;
