@@ -23,7 +23,7 @@ let Post = class Post {
 };
 __decorate([
     (0, type_graphql_1.Field)(() => type_graphql_1.Int),
-    (0, core_1.PrimaryKey)(),
+    (0, core_1.PrimaryKey)({ autoincrement: true }),
     __metadata("design:type", Number)
 ], Post.prototype, "id", void 0);
 __decorate([
@@ -37,7 +37,7 @@ __decorate([
     __metadata("design:type", String)
 ], Post.prototype, "title", void 0);
 __decorate([
-    (0, type_graphql_1.Field)(() => String),
+    (0, type_graphql_1.Field)(() => String, { nullable: true }),
     (0, core_1.Property)({ nullable: true }),
     __metadata("design:type", String)
 ], Post.prototype, "body", void 0);
@@ -52,7 +52,7 @@ __decorate([
     __metadata("design:type", Object)
 ], Post.prototype, "updatedAt", void 0);
 __decorate([
-    (0, type_graphql_1.Field)(() => String),
+    (0, type_graphql_1.Field)(() => String, { nullable: true }),
     (0, core_1.Property)({ type: 'text', nullable: true }),
     __metadata("design:type", String)
 ], Post.prototype, "imageUri", void 0);

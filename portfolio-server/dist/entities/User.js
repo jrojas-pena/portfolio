@@ -37,17 +37,17 @@ __decorate([
     __metadata("design:type", String)
 ], User.prototype, "password", void 0);
 __decorate([
-    (0, type_graphql_1.Field)(() => String),
+    (0, type_graphql_1.Field)(() => String, { nullable: true }),
     (0, core_1.Property)({ type: 'text', nullable: true }),
     __metadata("design:type", String)
 ], User.prototype, "firstName", void 0);
 __decorate([
-    (0, type_graphql_1.Field)(() => String),
+    (0, type_graphql_1.Field)(() => String, { nullable: true }),
     (0, core_1.Property)({ type: 'text', nullable: true }),
     __metadata("design:type", String)
 ], User.prototype, "lastName", void 0);
 __decorate([
-    (0, type_graphql_1.Field)(() => String),
+    (0, type_graphql_1.Field)(() => String, { nullable: true }),
     (0, core_1.Property)({ type: 'text', nullable: true }),
     __metadata("design:type", String)
 ], User.prototype, "profilePicture", void 0);
