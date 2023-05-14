@@ -6,7 +6,7 @@ import { User } from './User';
 @Entity()
 export class Post {
   @Field(() => Int)
-  @PrimaryKey()
+  @PrimaryKey({ autoincrement: true })
   id!: number;
 
   @Field(() => User)
@@ -17,7 +17,7 @@ export class Post {
   @Property()
   title!: string;
 
-  @Field(() => String)
+  @Field(() => String, { nullable: true })
   @Property({ nullable: true })
   body?: string;
 
@@ -29,7 +29,7 @@ export class Post {
   @Property({ onUpdate: () => new Date(), type: 'date' })
   updatedAt = new Date();
 
-  @Field(() => String)
+  @Field(() => String, { nullable: true })
   @Property({ type: 'text', nullable: true })
   imageUri?: string;
 

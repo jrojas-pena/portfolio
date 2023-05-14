@@ -24,15 +24,15 @@ export class User {
   @Property({ type: 'text' })
   password!: string;
 
-  @Field(() => String)
+  @Field(() => String, { nullable: true })
   @Property({ type: 'text', nullable: true })
   firstName?: string;
 
-  @Field(() => String)
+  @Field(() => String, { nullable: true })
   @Property({ type: 'text', nullable: true })
   lastName?: string;
 
-  @Field(() => String)
+  @Field(() => String, { nullable: true })
   @Property({ type: 'text', nullable: true })
   profilePicture?: string;
 

@@ -90,9 +90,9 @@
       "columns": {
         "id": {
           "name": "id",
-          "type": "int",
-          "unsigned": false,
-          "autoincrement": false,
+          "type": "serial",
+          "unsigned": true,
+          "autoincrement": true,
           "primary": false,
           "nullable": false,
           "mappedType": "integer"
