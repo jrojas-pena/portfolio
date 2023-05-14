@@ -23,7 +23,7 @@ let PostResolver = class PostResolver {
     post(id, { em }) {
         return em.findOne(Post_1.Post, { id });
     }
-    async createPost(title, body, { em, req }) {
+    async createPost(title, body, imageUri, { em, req }) {
         if (!req.session.userId) {
             return null;
         }
@@ -34,13 +34,17 @@ let PostResolver = class PostResolver {
             createdAt: '',
             updatedAt: '',
             author: user,
-            imageUri: '',
+            imageUri,
         });
         await em.persistAndFlush(post);
         return post;
     }
-    async updatePost(id, title, body, { em }) {
+    async updatePost(id, title, body, imageUri, { em, req }) {
         const post = await em.findOne(Post_1.Post, { id });
+        const user = (await em.findOne(User_1.User, { id: post === null || post === void 0 ? void 0 : post.author.id }));
+        if (user.id !== req.session.userId) {
+            return null;
+        }
         if (!post) {
             return null;
         }
@@ -50,6 +54,10 @@ let PostResolver = class PostResolver {
         }
         if (typeof body !== 'undefined') {
             post.body = body;
+            post.updatedAt = new Date();
+        }
+        if (typeof imageUri !== 'undefined') {
+            post.imageUri = imageUri;
             post.updatedAt = new Date();
         }
         await em.persistAndFlush(post);
@@ -84,9 +92,10 @@ __decorate([
     (0, type_graphql_1.Mutation)(() => Post_1.Post),
     __param(0, (0, type_graphql_1.Arg)('title')),
     __param(1, (0, type_graphql_1.Arg)('body')),
-    __param(2, (0, type_graphql_1.Ctx)()),
+    __param(2, (0, type_graphql_1.Arg)('imageUri')),
+    __param(3, (0, type_graphql_1.Ctx)()),
     __metadata("design:type", Function),
-    __metadata("design:paramtypes", [String, String, Object]),
+    __metadata("design:paramtypes", [String, String, String, Object]),
     __metadata("design:returntype", Promise)
 ], PostResolver.prototype, "createPost", null);
 __decorate([
@@ -94,9 +103,10 @@ __decorate([
     __param(0, (0, type_graphql_1.Arg)('id')),
     __param(1, (0, type_graphql_1.Arg)('title', () => String, { nullable: true })),
     __param(2, (0, type_graphql_1.Arg)('body', () => String, { nullable: true })),
-    __param(3, (0, type_graphql_1.Ctx)()),
+    __param(3, (0, type_graphql_1.Arg)('imageUri', () => String, { nullable: true })),
+    __param(4, (0, type_graphql_1.Ctx)()),
     __metadata("design:type", Function),
-    __metadata("design:paramtypes", [Number, String, String, Object]),
+    __metadata("design:paramtypes", [Number, String, String, String, Object]),
     __metadata("design:returntype", Promise)
 ], PostResolver.prototype, "updatePost", null);
 __decorate([
