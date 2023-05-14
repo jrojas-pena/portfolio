@@ -25,6 +25,7 @@ export class PostResolver {
   async createPost(
     @Arg('title') title: string,
     @Arg('body') body: string,
+    @Arg('imageUri') imageUri: string,
     @Ctx() { em, req }: MyContext,
   ): Promise<Post | null> {
     if (!req.session.userId) {
@@ -37,7 +38,7 @@ export class PostResolver {
       createdAt: '',
       updatedAt: '',
       author: user,
-      imageUri: '',
+      imageUri,
     });
     await em.persistAndFlush(post);
     return post;
@@ -49,9 +50,14 @@ export class PostResolver {
     @Arg('id') id: number,
     @Arg('title', () => String, { nullable: true }) title: string,
     @Arg('body', () => String, { nullable: true }) body: string,
-    @Ctx() { em }: MyContext,
+    @Arg('imageUri', () => String, { nullable: true }) imageUri: string,
+    @Ctx() { em, req }: MyContext,
   ): Promise<Post | null> {
     const post = await em.findOne(Post, { id });
+    const user = (await em.findOne(User, { id: post?.author.id })) as User;
+    if (user.id !== req.session.userId) {
+      return null;
+    }
     if (!post) {
       return null;
     }
@@ -61,6 +67,10 @@ export class PostResolver {
     }
     if (typeof body !== 'undefined') {
       post.body = body;
+      post.updatedAt = new Date();
+    }
+    if (typeof imageUri !== 'undefined') {
+      post.imageUri = imageUri;
       post.updatedAt = new Date();
     }
     await em.persistAndFlush(post);
