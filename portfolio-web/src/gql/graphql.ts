@@ -1,4 +1,4 @@
-/* eslint-enable */
+/* eslint-disable */
 import { TypedDocumentNode as DocumentNode } from '@graphql-typed-document-node/core';
 import gql from 'graphql-tag';
 import * as Urql from 'urql';
@@ -41,6 +41,7 @@ export type Mutation = {
 
 export type MutationCreatePostArgs = {
   body: Scalars['String'];
+  imageUri: Scalars['String'];
   title: Scalars['String'];
 };
 
@@ -60,14 +61,17 @@ export type MutationLoginArgs = {
 export type MutationUpdatePostArgs = {
   body?: InputMaybe<Scalars['String']>;
   id: Scalars['Float'];
+  imageUri?: InputMaybe<Scalars['String']>;
   title?: InputMaybe<Scalars['String']>;
 };
 
 export type Post = {
   __typename?: 'Post';
-  body: Scalars['String'];
+  author: User;
+  body?: Maybe<Scalars['String']>;
   createdAt: Scalars['String'];
   id: Scalars['Int'];
+  imageUri?: Maybe<Scalars['String']>;
   title: Scalars['String'];
   updatedAt: Scalars['String'];
 };
@@ -85,10 +89,11 @@ export type QueryPostArgs = {
 
 export type User = {
   __typename?: 'User';
-  firstName: Scalars['String'];
+  firstName?: Maybe<Scalars['String']>;
   id: Scalars['Float'];
-  lastName: Scalars['String'];
+  lastName?: Maybe<Scalars['String']>;
   password: Scalars['String'];
+  profilePicture?: Maybe<Scalars['String']>;
   username: Scalars['String'];
 };
 
@@ -180,11 +185,13 @@ export type PostsQuery = {
   __typename?: 'Query';
   posts: Array<{
     __typename?: 'Post';
-    body: string;
+    body?: string | null;
     createdAt: string;
     id: number;
     title: string;
     updatedAt: string;
+    imageUri?: string | null;
+    author: { __typename?: 'User'; id: number };
   }>;
 };
 
@@ -269,11 +276,15 @@ export function useMeQuery(
 export const PostsDocument = gql`
   query Posts {
     posts {
+      author {
+        id
+      }
       body
       createdAt
       id
       title
       updatedAt
+      imageUri
     }
   }
 `;
